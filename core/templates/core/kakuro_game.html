@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kakuro Game</title>
+    <style>
+        body { background:#121212; color:white; font-family:Arial; text-align:center; }
+        table { border-collapse:collapse; margin:auto; }
+        td { width:50px; height:50px; border:1px solid #555; }
+        .black { background:#333; font-weight:bold; }
+        input { width:100%; height:100%; background:#1e1e1e; color:white; border:none; text-align:center; font-size:18px; }
+        button { margin:5px; padding:8px; }
+    </style>
+</head>
+<body>
+
+<h1>Kakuro Game</h1>
+
+<form method="post">
+    {% csrf_token %}
+    Grid Size:
+    <input type="number" name="size" value="{{ size }}" min="4" max="9">
+    <br><br>
+    <button name="new_game">New Game</button>
+    <button name="check">Check Solution</button>
+</form>
+
+<p>{{ message }}</p>
+
+<table>
+   
+    <tr>
+        <td class="black"></td>
+        {% for c in col_sums %}
+            <td class="black">{{ c }}</td>
+        {% endfor %}
+    </tr>
+
+   
+    {% for row, row_sum in rows %}
+    <tr>
+        <td class="black">{{ row_sum }}</td>
+        {% for cell in row %}
+            <td>
+                <input type="number" 
+                       name="cell_{{ forloop.parentloop.counter0 }}_{{ forloop.counter0 }}"
+                       min="1" max="9">
+            </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
