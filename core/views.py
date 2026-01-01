@@ -35,9 +35,22 @@ def kakuro_game(request):
         for r in range(len(grid)):
             for c in range(len(grid[r])):
                 user_val = request.POST.get(f"cell_{r}_{c}")
-                if not user_val or int(user_val) != grid[r][c]:
+
+                try:
+               
+                if not user_val or int(user_val) != int(grid[r][c]):
                     correct = False
+                    break 
+            except ValueError:
+              
+                correct = False
+                break
+        if not correct:
+            break
+                
         message = " Correct!" if correct else " Incorrect solution"
+
+        print(f"Comparing {user_val} to {grid[r][c]}")
 
     return render(request, "core/kakuro_game.html", {
         "size": size,
